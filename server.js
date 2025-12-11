@@ -19,7 +19,7 @@ exp.get("/api/opportunities", async function(_req, res){
 exp.use(express.static(dir));
 
 exp.listen(3000, function(){console.log("server working - http://localhost:3000");});
-
+          
 
 //for posts:
 
