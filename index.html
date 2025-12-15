@@ -29,7 +29,7 @@ console.log(query.rows);
 await client.end();
 */
 //EXPRESS VERSION!11!1!
-function reload(){
+/*function reload(){
 fetch("http://localhost:3000/api/opportunities").then(res => res.json()).then(data => {
     var list = $("#qwer");
     list.empty();
@@ -48,7 +48,40 @@ fetch("http://localhost:3000/api/opportunities",{
     description: $("#desc").val()
     })}).then(result => {return result.json();}).then(reload());
 });
+*/
 
+
+function createUser(){
+fetch("http://localhost:3000/api/opportunities",{
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({//stringify turns js vals unto json text
+    fname: $("FIRST NAME PLACEHOLDER").val(),
+    lname: $("LAST NAME PLACEHOLDER").val(),
+    email: $("EMAIL PLACEHOLDER").val(),
+    password: $("PASSWORD PLACEHOLDER").val()
+    })}).then(result => {return result.json();}).then(DISPLAY_FUNCTION_PLACEHOLDER());
+}
+
+
+$("SOME BUTTON").click(createUser); //fill this in with the CREATE USER BUTTON
+
+function fetchUser(id){
+  return fetch(`http://localhost:3000/api/users/${encodeURIComponent(id)}`) //encodeURI takes in a variable that's safe for a url apparently
+    .then(res => {
+      if (!res.ok) throw new Error(`fetchUser failed (${res.status})`);
+      return res.json();
+    })
+    .then(user => {
+      //DISPLAY_FUNCTION_PLACEHOLDER(user);
+      console.log("Fetched user:", user);
+      return user;
+    })
+    .catch(err => console.error(err)); //adfsjkl;
+}
+
+$("SOME FETCH USER BUTTON").click(fetchUser($("SOME TEXT FIELD").text()));
+// $("#fetchUserBtn").click(() => fetchUser($("#userIdInput").val()));
 
 
 

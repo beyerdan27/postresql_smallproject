@@ -33,22 +33,45 @@ exp.post("/api/opportunities", async function (req, res) {
 
 //function to create student profile
 
-app.post('/create-user', async (req, res) => {
-  try {
-    const {id, email, password, first_name, last_name, date_created} = req.body;
-    const result = await pool.query(
-      `INSERT INTO users (id, email, password, first_name, last_name, date_created)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-      [id, email, password, first_name, last_name, date_created]
-    );
 
-    res.status(200).json(result.rows[0]);
+exp.post("/create-user", async (req, res) => {
+  try {
+    const { email, password, fname, lname } = req.body;
+    if (!email || !password || !fname || !lname) {
+      return res.status(400).json({ error: "missing required fields" });
+    }
+
+    const result = await client.query(
+      `INSERT INTO users (email, password, first_name, last_name)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, email, first_name, last_name, date_account_created`,
+      [email, password, fname, lname]
+    );
+    res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Error creating user");
+    console.error("Error creating user", err);
+    res.status(500).json({ error: "db error" });
   }
 });
+
+
+// fetch user by id without password for now
+exp.get("/api/users/:id", async (req, res) => {
+  try {
+    const result = await client.query(
+      `SELECT id, email, first_name, last_name, date_account_created
+       FROM users
+       WHERE id = $1`,
+      [req.params.id]
+    );
+    if (!result.rows.length) return res.status(404).json({ error: "not found because user does not exist" });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error fetching user", err);
+    res.status(500).json({ error: "database error because it hates you specifically." });
+  }
+});
+
 
 
 
