@@ -98,7 +98,29 @@ exp.post("/update-user", async (req, res) => {
 });
 
 
-
+exp.get("/api/opportunities/fields", async function (_req, res){
+  try {
+    const result = await client.query(`
+     SELECT
+        organizations.name AS "CompanyName",
+        opportunities.type AS "OppType",
+        COALESCE(
+          json_agg(opportunity_tags.name) FILTER (WHERE opportunity_tags.name IS NOT NULL),
+          '[]'
+        ) AS "Fields"
+        FROM opportunities
+        LEFT JOIN organizations ON opportunities.org_id = organizations.id
+        LEFT JOIN opportunity_tag_links ON opportunities.id = opportunity_tag_links.opportunity_id
+        LEFT JOIN opportunity_tags ON opportunity_tag_links.tag_id = opportunity_tags.id
+        GROUP BY opportunities.id, organizations.name
+        ORDER BY opportunities.date_posted DESC;
+    `);
+   res.json(result.rows); // Returns JSON with CompanyName, OppType, Fields
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
 
 
