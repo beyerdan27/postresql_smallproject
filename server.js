@@ -31,6 +31,31 @@ exp.post("/api/opportunities", async function (req, res) {
   );
 });
 
+//function to create student profile
+
+app.post('/create-user', async (req, res) => {
+  try {
+    const {id, email, password, first_name, last_name, date_created} = req.body;
+    const result = await pool.query(
+      `INSERT INTO users (id, email, password, first_name, last_name, date_created)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [id, email, password, first_name, last_name, date_created]
+    );
+
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error creating user");
+  }
+});
+
+
+
+
+
+
+
 //username: interhub_user
 //password: Notpassword
 //db: exp_learn
