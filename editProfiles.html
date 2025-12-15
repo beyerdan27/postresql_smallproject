@@ -11,11 +11,11 @@
     <label>Password: <input type="text" name="password" required></label><br><br>
     <label>First Name: <input type="text" name="first_name" required></label><br><br>
     <label>Last Name: <input type="text" name="last_name" required></label><br><br>
-    <button id="Edit Proifle">Edit Profile</button>
+    <button id="editBtn">Edit Profile</button>
   </form>
 
   <p id="message"></p>
-  <button onclick="location.href='index.html'">Back to Home</button>
+  <button onclick="location.href='studentProfiles.html'">Back to Home</button>
 
   <script>
     document.getElementById("editForm").onsubmit = async (e) => {
@@ -32,6 +32,36 @@
       document.getElementById("message").innerText =
         res.ok ? "Profile updated!" : "Error updating profile";
     };
+
+
+
+
+    function updateUser(){
+  return fetch("http://localhost:3000/update-user", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      email:    $("#emailInput").val(), // required
+      password: $("#passwordInput").val(),
+      fname:    $("#fnameInput").val(),
+      lname:    $("#lnameInput").val()
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(`updateUser failed (${res.status})`);
+    return res.json();
+  })
+  .then(user => {
+    // DISPLAY_FUNCTION_PLACEHOLDER(user);
+    $("body").append("User updated");
+    console.log("Updated user:", user);
+    return user;
+  })
+  .catch(err => console.error(err));
+}
+
+
+$("#editBtn").click(updateUser);
   </script>
 </body>
 </html>

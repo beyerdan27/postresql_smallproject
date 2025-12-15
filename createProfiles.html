@@ -11,7 +11,7 @@
     <label>Password: <input type="text" name="password" required></label><br><br>
     <label>First Name: <input type="text" name="first_name" required></label><br><br>
     <label>Last Name: <input type="text" name="last_name" required></label><br><br>
-    <button id="Create Profile">Create Profile</button>
+    <button id="createBtn">Create Profile</button>
   </form>
 
   <!--Button to go back to the homepage-->
@@ -33,6 +33,21 @@
         body: JSON.stringify(data)
       });
     };
+function createUser(){
+fetch("http://localhost:3000/api/create-user",{
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({//stringify turns js vals unto json text
+    fname: $("FIRST NAME PLACEHOLDER").val(),
+    lname: $("LAST NAME PLACEHOLDER").val(),
+    email: $("EMAIL PLACEHOLDER").val(),
+    password: $("PASSWORD PLACEHOLDER").val()
+    })}).then(result => {return result.json();}).then($("body").append("User created"));
+}
+$("#createBtn").click(createUser); //fill this in with the CREATE USER BUTTON
+
+
+
   </script>
 </body>
 </html>

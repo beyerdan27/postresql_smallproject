@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Alumni Network</title>
+  <title>Student Profiles</title>
   <style>
     /* Basic styling for the page */
     body { 
@@ -36,31 +36,40 @@
 <body>
 
   <!-- Page title -->
-  <h1>Alumni Network</h1>
+  <h1>Student Profiles</h1>
 
   <!-- Name input section -->
   <p>Enter your name:</p>
   <input type="text" id="nameInput" placeholder="Your Name">
 
-   <button onclick="hello()">Submit</button>
+   <button id="nameBtn">Submit</button>
 
 <div style="margin-top: 40px;">
   <!-- Button for Create Profile page -->
   <button onclick="location.href='createProfiles.html'">Create Profile</button>
 
   <!-- Button for Edit Profile page -->
-  <button onclick="location.href='editProfile.html'">Edit Profile</button>
+  <button onclick="location.href='editProfiles.html'">Edit Profile</button>
 </div>
-
+<p id="return">No user loaded</p>
 
   <!-- Greeting -->
   <script>
-    // Function for when button is clicked
-    function hello() {
-      const name = document.getElementById("nameInput").value;
+function fetchUser(id){
+  return fetch(`http://localhost:3000/api/users/${encodeURIComponent(id)}`) //encodeURI takes in a variable that's safe for a url apparently
+    .then(res => {
+      if (!res.ok) throw new Error(`fetchUser failed (${res.status})`);
+      return res.json();
+    })
+    .then(user => {
+      $("#return").text(user);
+      console.log("Fetched user:", user);
+      return user;
+    })
+    .catch(err => console.error(err)); //adfsjkl;
+}
 
-      document.getElementById("greeting").innerText = `Hello, ${name}!`;
-    }
+$("#nameBtn").click(fetchUser($("#nameInput").text()));
   </script>
 
 </body>
