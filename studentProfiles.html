@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alumni Network</title>
+  <style>
+    /* Basic styling for the page */
+    body { 
+      font-family: Helvetica; 
+      text-align: center; 
+      margin-top: 50px; 
+    }
+
+    /* Styling for buttons */
+    button { 
+      padding: 15px 30px; 
+      font-size: 18px; 
+      margin: 15px; 
+      cursor: pointer; 
+    }
+
+    /* Styling for text input */
+    input { 
+      padding: 8px; 
+      font-size: 16px; 
+      width: 200px; 
+    }
+
+    /* Styling for greeting message */
+    #greeting { 
+      margin-top: 20px; 
+      font-size: 20px; 
+      font-weight: bold; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page title -->
+  <h1>Alumni Network</h1>
+
+  <!-- Name input section -->
+  <p>Enter your name:</p>
+  <input type="text" id="nameInput" placeholder="Your Name">
+
+   <button onclick="hello()">Submit</button>
+
+<div style="margin-top: 40px;">
+  <!-- Button for Create Profile page -->
+  <button onclick="location.href='createProfiles.html'">Create Profile</button>
+
+  <!-- Button for Edit Profile page -->
+  <button onclick="location.href='editProfile.html'">Edit Profile</button>
+</div>
+
+
+  <!-- Greeting -->
+  <script>
+    // Function for when button is clicked
+    function hello() {
+      const name = document.getElementById("nameInput").value;
+
+      document.getElementById("greeting").innerText = `Hello, ${name}!`;
+    }
+  </script>
+
+</body>
+</html>
