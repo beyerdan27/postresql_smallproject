@@ -56,10 +56,10 @@ fetch("http://localhost:3000/api/create-user",{
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({//stringify turns js vals unto json text
-    fname: $("FIRST NAME PLACEHOLDER").val(),
-    lname: $("LAST NAME PLACEHOLDER").val(),
-    email: $("EMAIL PLACEHOLDER").val(),
-    password: $("PASSWORD PLACEHOLDER").val()
+    fname: $("#fnameInput").val(),
+    lname: $("#lnameInput").val(),
+    email: $("#emailInput").val(),
+    password: $("#passwordInput").val()
     })}).then(result => {return result.json();}).then(DISPLAY_FUNCTION_PLACEHOLDER());
 }
 
